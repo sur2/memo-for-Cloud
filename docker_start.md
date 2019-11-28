@@ -1,43 +1,49 @@
-## ¿ìºĞÅõ¿¡ µµÄ¿ ¼³Ä¡ ÁØºñ
+## ìš°ë¶„íˆ¬ì— ë„ì»¤ ì„¤ì¹˜ ì¤€ë¹„
 sudo apt update
+
 sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
 sudo apt-key fingerprint 0EBFCD88
+
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
 sudo apt update
 
 apt-cache policy docker-ce
 
-## µµÄ¿ ¼³Ä¡
+## ë„ì»¤ ì„¤ì¹˜
 sudo apt install docker-ce docker-ce-cli containerd.io
 
-## ¼­ºñ½º ½ÇÇà È®ÀÎ(µµÄ¿)
+## ì„œë¹„ìŠ¤ ì‹¤í–‰ í™•ì¸(ë„ì»¤)
 sudo systemctl status docker
 
-## µµÄ¿ ÀÌ¹ÌÁö ´Ù¿î·Îµå(haribo-mySQL)
+## ë„ì»¤ ì´ë¯¸ì§€ ë‹¤ìš´ë¡œë“œ(haribo-mySQL)
 docker pull emblockit/haribo-mysql
 
-## µµÄ¿ ÀÌ¹ÌÁö È®ÀÎ
+## ë„ì»¤ ì´ë¯¸ì§€ í™•ì¸
 docker images
 
-## ÄÁÅ×ÀÌ³Ê ½ÇÇà(ÄÁÅ×ÀÌ³Ê ¸¸µé±â)
+## ì»¨í…Œì´ë„ˆ ì‹¤í–‰(ì»¨í…Œì´ë„ˆ ë§Œë“¤ê¸°)
 docker run -d -p 3306:3306 --name haribo-mysql emblockit/haribo-mysql
 
-## ÄÁÅ×ÀÌ³Ê ½ÇÇà È®ÀÎ
+## ì»¨í…Œì´ë„ˆ ì‹¤í–‰ í™•ì¸
 docker ps -a
 
-## µµÄ¿ ÄÁÅ×ÀÌ³Ê ½ÇÇà ·Î±× º¸±â
+## ë„ì»¤ ì»¨í…Œì´ë„ˆ ì‹¤í–‰ ë¡œê·¸ ë³´ê¸°
 docker logs -f haribo-mysql
 
-## µµÄ¿ ÄÁÅ×ÀÌ³Ê ÁßÁö ¹× ½ÇÇà
+## ë„ì»¤ ì»¨í…Œì´ë„ˆ ì¤‘ì§€ ë° ì‹¤í–‰
 docker stop haribo-mysql
 docker start haribo-mysql
 
-### ÇöÀç Á¢¼ÓÁßÀÎ »ç¿ëÀÚ¿¡°Ô ±ÇÇÑÁÖ±â(docker´Â root±ÇÇÑÀÌ ±âº»ÀÌ±â ¶§¹®)
+### í˜„ì¬ ì ‘ì†ì¤‘ì¸ ì‚¬ìš©ìì—ê²Œ ê¶Œí•œì£¼ê¸°(dockerëŠ” rootê¶Œí•œì´ ê¸°ë³¸ì´ê¸° ë•Œë¬¸)
 sudo usermod -a -G docker $USER
+
 sudo service docker restart
 
-# Dockerfile ÀÛ¼º
+# Dockerfile ì‘ì„±
 ```
 FROM ubuntu
 
@@ -57,38 +63,38 @@ COPY ./CustomGenesis.json /home/DATA_STORE
 RUN geth --datadir "/home/DATA_STORE" init /home/DATA_STORE/CustomGenesis.json
 ```
 
-# PJT03 docker Container ¸¸µé±â
+# PJT03 docker Container ë§Œë“¤ê¸°
 ```
-docker run -d --name ÄÁÅ×ÀÌ³Ê ÀÌ¸§ -p 3306:3306 -e MYSQL_ROOT_PASSWORD=¼³Á¤ÇÒ ºñ¹Ğ¹øÈ£ mysql
+docker run -d --name ì»¨í…Œì´ë„ˆ ì´ë¦„ -p 3306:3306 -e MYSQL_ROOT_PASSWORD=ì„¤ì •í•  ë¹„ë°€ë²ˆí˜¸ mysql
 -d : detach
--e : ÄÁÅ×ÀÌ³Ê È¯°æº¯¼ö (MYSQL_ROOT_PASSWORD)
+-e : ì»¨í…Œì´ë„ˆ í™˜ê²½ë³€ìˆ˜ (MYSQL_ROOT_PASSWORD)
 
 docker run -d --name MySQL_Pjt03 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=ssafy mysql mysqld --lower_case_table_names=1 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
 
-## °¡µ¿ ÄÁÅ×ÀÌ³Ê¿¡¼­ ÇÁ·Î¼¼½º ½ÇÇà(docker container exec)
+## ê°€ë™ ì»¨í…Œì´ë„ˆì—ì„œ í”„ë¡œì„¸ìŠ¤ ì‹¤í–‰(docker container exec)
 ```
-docker container exec [¿É¼Ç] <ÄÁÅ×ÀÌ³Ê ½Äº°ÀÚ> <½ÇÇàÇÒ ¸í·É> [ÀÎ¼ö]
+docker container exec [ì˜µì…˜] <ì»¨í…Œì´ë„ˆ ì‹ë³„ì> <ì‹¤í–‰í•  ëª…ë ¹> [ì¸ìˆ˜]
 docker container exec -it MySQL_Pjt03 /bin/bash
 ```
 ___
-# µµÄ¿ ÆÄÀÏ·Î ÄÁÅ×ÀÌ³Ê ¸¸µé±â npm, yarn, jar
-docker build -t <name> <Dockerfile À§Ä¡>
+# ë„ì»¤ íŒŒì¼ë¡œ ì»¨í…Œì´ë„ˆ ë§Œë“¤ê¸° npm, yarn, jar
+docker build -t <name> <Dockerfile ìœ„ì¹˜>
 
 ### jar
 ```
-# µµÄ¿ ÀÌ¹ÌÁö ÁöÁ¤
+# ë„ì»¤ ì´ë¯¸ì§€ ì§€ì •
 FROM openjdk@sha256:08bf396d2e7e82b12d9c78d7e75137c1159c07f18f203391aa599adcb3643097
 
-# µµÄ¿ ³»ºÎ µğ·ºÅä¸® ÁöÁ¤
+# ë„ì»¤ ë‚´ë¶€ ë””ë ‰í† ë¦¬ ì§€ì •
 WORKDIR /docker_dir
 
-# È£½ºÆ®¿¡¼­ µµÄ¿·Î ÆÄÀÏ º¹»ç(Àı´ë °æ·Î ºÒ°¡´É)
+# í˜¸ìŠ¤íŠ¸ì—ì„œ ë„ì»¤ë¡œ íŒŒì¼ ë³µì‚¬(ì ˆëŒ€ ê²½ë¡œ ë¶ˆê°€ëŠ¥)
 COPY SpringBootDDT.jar /docker_dir/
 
-# ¿ÜºÎ Æ÷Æ®
+# ì™¸ë¶€ í¬íŠ¸
 EXPOSE 8888
 
-# jar file ½ÇÇà
+# jar file ì‹¤í–‰
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/docker_dir/SpringBootDDT.jar"]
 ```
